@@ -15,6 +15,7 @@ export class MemoService {
     async getAllMemos(user: UserEntity) {
         return this.memoRepository.find({
             where: { user: { userPk: user.userPk } },
+            relations: ['user'],
         });
     }
 

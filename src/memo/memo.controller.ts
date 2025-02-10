@@ -34,7 +34,7 @@ export class MemoController {
         return this.memoService.updateMemo(dto, user);
     }
 
-    @Delete('delete/:num')
+    @Get('delete/:num')
     async deleteMemo(@Param('num') num: number, @Req() req: Request) {
         const user = req.user as UserEntity;
         return this.memoService.deleteMemo(num, user);
