@@ -18,3 +18,8 @@ export class UpdateMemoDto {
     @IsString()
     content: string;
 }
+
+export class ReadDeleteMemoDto {
+    @IsNumber()
+    number: string;
+}

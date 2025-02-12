@@ -1,5 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { AuthLogInDto, AuthSignUpDto } from './dto/auth.dto';
+import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
+import { AuthLogInDto, AuthRefreshDto, AuthSignUpDto } from './dto/auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 
@@ -19,5 +19,10 @@ export class AuthController {
     async login(@Body() body: AuthLogInDto) {
         const user = await this.authservice.checkUser(body);
         return this.authservice.login(user);
+    }
+
+    @Post('refresh')
+    async refresh(@Body() body: AuthRefreshDto) {
+        return this.authservice.refreshAccessToken(body);
     }
 }

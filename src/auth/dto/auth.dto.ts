@@ -1,4 +1,4 @@
-import { IsString } from "@nestjs/class-validator";
+import { IsNotEmpty, IsString } from "@nestjs/class-validator";
 
 export class AuthSignUpDto {
     @IsString()
@@ -14,4 +14,9 @@ export class AuthLogInDto {
 
     @IsString()
     password: string;
+}
+
+export class AuthRefreshDto {
+    @IsNotEmpty()
+    Rtoken: string;
 }

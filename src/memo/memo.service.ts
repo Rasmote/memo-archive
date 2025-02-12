@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/co
 import { InjectRepository } from '@nestjs/typeorm';
 import { MemoEntity } from './entity/memo.entity';
 import { Repository } from 'typeorm';
-import { CreateMemoDto, UpdateMemoDto } from './dto/memo.dto';
+import { CreateMemoDto, ReadDeleteMemoDto, UpdateMemoDto } from './dto/memo.dto';
 import { UserEntity } from 'src/users/entity/user.entity';
 
 @Injectable()
@@ -15,7 +15,11 @@ export class MemoService {
     async getAllMemos(user: UserEntity) {
         return this.memoRepository.find({
             where: { user: { userPk: user.userPk } },
-            relations: ['user'],
+            select: {
+                memoPK: true,
+                title: true,
+                content: true,
+            }
         });
     }
 
@@ -29,9 +33,9 @@ export class MemoService {
         return { message: '메모가 생성되었습니다.' };
     }
 
-    async readMemo(id: number, user: UserEntity) {
+    async readMemo(num: number, user: UserEntity) {
         const memo = await this.memoRepository.findOne({
-            where: { memoPK: id, user: { userPk: user.userPk } },
+            where: { memoPK: num, user: { userPk: user.userPk } },
         });
         if (!memo) {
             throw new NotFoundException('해당 메모를 찾을 수 없습니다.');
